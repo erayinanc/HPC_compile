@@ -3,7 +3,9 @@
 # info: compiles torch with MPI backend using (mini)Conda
 # author: ei
 # version: 221006a
-# notes: NVHPC/22.7 could also work, test if needed
+# notes: load the same modules, source and activate conda in start script
+# test: python3 -c "import torch; print(torch.distributed.is_mpi_available())"
+# todo: NVHPC/22.7 could also work, test if needed
 
 # needed jureca-dc modules
 ml --force purge
@@ -59,5 +61,14 @@ else
    popd
 fi
 echo 'part 2 done!'
+
+# libstdc++.so.6.0.29 lib is missing from conda libs
+# fix 1. copy and link libstdc++.so.6.0.29 to conda
+# fix 2. export LD_LIBRARY_PATH="$EBROOTGCC/lib64:$LD_LIBRARY_PATH"
+# (if fix 2 fails) rm -f $CONDA_PREFIX/lib/libstdc++.so.6
+cp $EBROOTGCC/lib64/libstdc++.so.6.0.29 $CONDA_PREFIX/lib/
+pushd $CONDA_PREFIX/lib/
+ln -s libstdc++.so.6.0.29 libstdc++.so.6
+popd
 
 #eof
