@@ -1,4 +1,3 @@
-09:10:50 → inanc2 → /p/scratch/raise-ctp2/inanc2 → cat createEnv_MPI.sh
 #!/bin/bash
 # -*- coding: utf-8 -*-
 # info: compiles torch with MPI backend using (mini)Conda
